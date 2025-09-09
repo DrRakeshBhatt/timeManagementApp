@@ -115,7 +115,13 @@
 2. Edit reminder setting for task going overtime.
 3. Edit reminder setting for tasks due.
 
+# Notifications
 
+**Implement Notifications** 
+- As a user, I want to receive a timely reminder notification so that I don’t forget to complete my tasks.
+
+**Acceptance Criteria:**
+1. Reminder at a selected time before a task is due.
 
 
 
