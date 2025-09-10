@@ -111,9 +111,7 @@
 - As a user, I want to adjust notification preferences so that I only receive alerts relevant to me.
 
 **Acceptance Criteria:**
-1. Option to change the notification ringtone or silence notifications.
-2. Edit reminder setting for task going overtime.
-3. Edit reminder setting for tasks due.
+1. Select or unselect notification types such as Tasks due, Overtime, and Promotional notifications.
 
 # Notifications
 
