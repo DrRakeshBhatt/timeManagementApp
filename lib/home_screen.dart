@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:time_manager/add_schedule_dialog.dart';
 import 'package:time_manager/detail_screen.dart';
-import 'package:time_manager/local_storage.dart';
+import 'package:time_manager/login_screen.dart';
+import 'package:time_manager/notifications_screen.dart';
+import 'package:time_manager/profile_screen.dart';
+import 'package:time_manager/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;
@@ -26,7 +29,16 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: Icon(Icons.alarm, color: Colors.red.shade600, size: 40),
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Icon(Icons.alarm, color: Colors.red.shade600, size: 40),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -40,6 +52,82 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.settings_outlined, size: 40),
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              padding: EdgeInsetsGeometry.all(24),
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(username: widget.username),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.account_box),
+              title: const Text('Profile'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ProfileScreen(username: widget.username),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.notifications),
+              title: const Text('Notifications'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotificationsScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: const Text('Sign Out '),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+              },
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -127,7 +215,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const AddScheduleDialog();
+                        },
+                      );
+                    },
                     icon: Icon(
                       Icons.add_circle_outline,
                       size: 40,
@@ -137,13 +232,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const Divider(),
-              Column(
-                children: [
-                  scheduleDetails("Work out - 9.00 am"),
-                  scheduleDetails("Meeting - 11.00 am"),
-                  scheduleDetails("Lunch - 2.00 pm"),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 40.0,
+                ),
+                child: Text(
+                  "Click the add + button to add new activity.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
+              // Column(
+              //   children: [
+              //     scheduleDetails("Work out - 9.00 am"),
+              //     scheduleDetails("Meeting - 11.00 am"),
+              //     scheduleDetails("Lunch - 2.00 pm"),
+              //   ],
+              // ),
             ],
           ),
         ),

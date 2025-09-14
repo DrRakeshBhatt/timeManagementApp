@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:time_manager/home_screen.dart';
 import 'package:time_manager/login_screen.dart';
 
 void main() {
@@ -10,6 +11,9 @@ class TimeManagerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: LoginScreen(), debugShowCheckedModeBanner: false);
+    return MaterialApp(
+      home: HomeScreen(username: 'Rocky'),
+      debugShowCheckedModeBanner: false,
+    );
   }
 }
