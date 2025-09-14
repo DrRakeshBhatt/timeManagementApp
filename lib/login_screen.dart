@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:time_manager/home_screen.dart';
+import 'package:time_manager/local_storage.dart';
 
 import 'signup_screen.dart';
 
@@ -16,8 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
 
   // Default credentials
-  final String defaultEmail = 'testuser@email.com';
-  final String defaultPassword = 'password123';
+  final String defaultEmail = 'test@email.com';
+  final String defaultPassword = '12345678';
 
   bool validateForm() {
     // create logic to validate form
@@ -33,18 +35,38 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       return false;
     }
-
     return true;
   }
 
-  Future<void> authenticateUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // create rest of the logic
-  }
-
-  void _login() {
-    // validate input - show toast message
+  void _login() async {
     validateForm();
+    final username = _emailController.text;
+    final password = _passwordController.text;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Check against default credentials
+    if (username == defaultEmail && password == defaultPassword) {
+      await prefs.setString('name', 'Rocky Balboa');
+      await prefs.setString('username', 'Rocky');
+      await prefs.setString('email', 'test@email.com');
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen(username: username)),
+      );
+    } else {
+      //empty out shared preferences
+      await prefs.clear();
+      Fluttertoast.showToast(
+        msg: "The username or password was incorrect",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
   }
 
   @override

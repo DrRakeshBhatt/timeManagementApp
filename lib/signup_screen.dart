@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:time_manager/home_screen.dart';
+import 'package:time_manager/local_storage.dart';
 
 import 'login_screen.dart';
 
@@ -16,8 +17,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool validateForm() {
-    // create logic to validate form
+  void _signup() async {
     if (_usernameController.text.trim().isEmpty ||
         _emailController.text.trim().isEmpty ||
         _passwordController.text.trim().isEmpty) {
@@ -29,22 +29,21 @@ class _SignupScreenState extends State<SignupScreen> {
         textColor: Colors.red,
         fontSize: 18.0,
       );
-
-      return false;
+    } else {
+      Map<String, dynamic> profile;
+      profile = {
+        "username": _usernameController.text,
+        "email": _emailController.text,
+        "password": _passwordController.text,
+      };
+      saveUserProfile(profile);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(username: _usernameController.text),
+        ),
+      );
     }
-
-    return true;
-  }
-
-  void _register() async {
-    // dummy for now
-    validateForm();
-    print("registration logic here");
-  }
-
-  Future<void> saveUserData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // create logic to get details
   }
 
   @override
@@ -153,7 +152,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 Center(
                   child: ElevatedButton(
-                    onPressed: _register,
+                    onPressed: _signup,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
