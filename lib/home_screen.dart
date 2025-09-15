@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:time_manager/add_schedule_dialog.dart';
 import 'package:time_manager/detail_screen.dart';
-import 'package:time_manager/login_screen.dart';
-import 'package:time_manager/notifications_screen.dart';
-import 'package:time_manager/profile_screen.dart';
-import 'package:time_manager/settings_screen.dart';
+import 'package:time_manager/drawer_menu.dart';
+import 'package:time_manager/settings_menu.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;
@@ -42,93 +40,18 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return const AddScheduleDialog();
-                },
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SettingsMenu(username: widget.username),
+                ),
               );
             },
             icon: Icon(Icons.settings_outlined, size: 40),
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              padding: EdgeInsetsGeometry.all(24),
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: const Text('Home'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomeScreen(username: widget.username),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_box),
-              title: const Text('Profile'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ProfileScreen(username: widget.username),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SettingsScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.notifications),
-              title: const Text('Notifications'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NotificationsScreen(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: const Text('Sign Out '),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: DrawerMenu(widget: widget),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(12.0),

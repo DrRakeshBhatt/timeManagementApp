@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:time_manager/login_screen.dart';
 
 // Function to save user profile data
 Future<void> saveUserProfile(Map<String, dynamic> profile) async {
@@ -18,4 +20,13 @@ Future<Map<String, dynamic>?> getUserProfile() async {
 Future<void> saveUserData(Map<String, dynamic> schedue) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString('userScheduleMap', jsonEncode(schedue));
+}
+
+void signOut(BuildContext context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => LoginScreen()),
+  );
 }

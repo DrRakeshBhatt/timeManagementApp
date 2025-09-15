@@ -3,19 +3,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:time_manager/country_list.dart';
 
-class SettingsScreen extends StatefulWidget {
+class PersonalInfoScreen extends StatefulWidget {
   final String username;
-  const SettingsScreen({super.key, required this.username});
+  const PersonalInfoScreen({super.key, required this.username});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  State<PersonalInfoScreen> createState() => _PersonalInfoScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   final _nameController = TextEditingController();
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
 
   String _country = 'India';
   List<String> _countries = [];
@@ -34,7 +33,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _nameController.text = prefs.getString('name') ?? '';
       _usernameController.text = prefs.getString('username') ?? '';
       _emailController.text = prefs.getString('email') ?? '';
-      _passwordController.text = prefs.getString('password') ?? '';
       _country = prefs.getString('country') ?? 'India';
     });
   }
@@ -56,7 +54,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await prefs.setString('name', _nameController.text);
     await prefs.setString('username', _usernameController.text);
     await prefs.setString('email', _emailController.text);
-    await prefs.setString('password', _passwordController.text);
     await prefs.setString('country', _country);
 
     Fluttertoast.showToast(
@@ -78,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.cyan,
         automaticallyImplyLeading: true,
-        title: Text("Settings"),
+        title: Text("Personal Info"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -96,32 +93,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   children: [
                     TextSpan(
-                      text: "\nWould you like to change any settings?",
+                      text: "\nTime is a very scarce resource. Use it wisely!",
                       style: TextStyle(
                         color: Colors.blueGrey,
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                padding: EdgeInsets.all(12.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.account_circle),
-                    const SizedBox(width: 10),
-                    Text(
-                      "Account Settings",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -144,12 +120,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 controller: _emailController,
                 label: 'Email',
                 icon: Icons.email_outlined,
-              ),
-              const SizedBox(height: 16),
-              _buildTextField(
-                controller: _passwordController,
-                label: 'Password',
-                icon: Icons.password,
               ),
               const SizedBox(height: 16),
 
@@ -199,7 +169,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   elevation: 5,
                 ),
                 child: const Text(
-                  'Save Changes',
+                  'Update Profile',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
